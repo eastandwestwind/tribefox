@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TribeFox</string>
+    <string name="action_settings">Settings</string>
+    <string name="edit_name">Enter Name</string>
+    <string name="button_save">Save</string>
+
+    <!-- spinner items-->
+    <string-array name="frequency_array">
+        <item>1x / day</item>
+        <item>2x / week</item>
+        <item>1x / week</item>
+        <item>2x / month</item>
+        <item>1x / month</item>
+        <item>6x / year</item>
+        <item>4x / year</item>
+        <item>2x / year</item>
+        <item>1x / year</item>
+    </string-array>
+</resources>
