@@ -6,6 +6,7 @@
 
     <!-- spinner items-->
     <string-array name="frequency_array">
+        <item>inactive</item>
         <item>1x / day</item>
         <item>2x / week</item>
         <item>1x / week</item>
