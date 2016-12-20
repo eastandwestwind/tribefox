@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                                     .setRequiresDeviceIdle(false)
                                     .setRequiresCharging(false)
                                             // 24 hours = 86400000
-                                    .setPeriodic(100)
+                                    .setPeriodic(10000)
                                     .build();
 
                             JobScheduler scheduler = (JobScheduler) MainActivity.this.getSystemService(Context.JOB_SCHEDULER_SERVICE);

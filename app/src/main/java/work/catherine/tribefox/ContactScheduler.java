@@ -1,6 +1,7 @@
 package work.catherine.tribefox;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,6 +15,8 @@ public class ContactScheduler extends JobService {
     public boolean onStartJob(JobParameters params) {
         // Note: this is preformed on the main thread.
         Log.i(TAG, "on start job: " + params.getJobId());
+
+        Notify.contactNotification(this);
 
         updateTask.execute(params);
 
