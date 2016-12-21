@@ -8,13 +8,22 @@
     <string-array name="frequency_array">
         <item>inactive</item>
         <item>1x / day</item>
-        <item>2x / week</item>
-        <item>1x / week</item>
-        <item>2x / month</item>
-        <item>1x / month</item>
-        <item>6x / year</item>
-        <item>4x / year</item>
-        <item>2x / year</item>
-        <item>1x / year</item>
+        <item>1x / 5s</item>
+        <item>1x / 10s</item>
+        <item>1x / 20s</item>
+        <item>1x / 50s</item>
+        <item>1x / 80s</item>
+        <item>1x / 100s</item>
+    </string-array>
+
+    <string-array name="frequency_array_values">
+        <item>0</item>
+        <item>604800000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>20000</item>
+        <item>50000</item>
+        <item>80000</item>
+        <item>100000</item>
     </string-array>
 </resources>

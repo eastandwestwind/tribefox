@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                        String[] frequency_array = getResources().getStringArray(R.array.frequency_array_values);
+                        double frequencyDouble = 23 + Double.parseDouble(frequency_array[position]);
+                        long frequencyLong = (long) frequencyDouble;
 
                         if (0 < position) {
                             ComponentName serviceName = new ComponentName(MainActivity.this, ContactScheduler.class);
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                     .setRequiresDeviceIdle(false)
                                     .setRequiresCharging(false)
                                             // 24 hours = 86400000
-                                    .setPeriodic(10000)
+                                    .setPeriodic(frequencyLong)
                                     .build();
 
                             JobScheduler scheduler = (JobScheduler) MainActivity.this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
