@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -24,15 +26,36 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
     private static int kJobId = 0;
+    public static final String TribePrefs = "TribePrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // retrieve data from shared preferences
+        SharedPreferences prefs = getSharedPreferences(TribePrefs, MODE_PRIVATE);
+        int howMany = prefs.getAll().size();
+        if (howMany > 0) {
+            LinearLayout list = (LinearLayout) findViewById(R.id.tribe_list);
+            assert list != null;
+            list.removeAllViews();
+            for (int index = 0; index < howMany; index++){
+                View row = getLayoutInflater().inflate(R.layout.content_main, list, false);
+                row.setId(index);
+                list.addView(row);
+                Spinner spinner = (Spinner) row.findViewById(R.id.spinner);
+                // Create an ArrayAdapter using the string array and a default spinner layout
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MainActivity.this,
+                        R.array.frequency_array, android.R.layout.simple_spinner_item);
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinner.setAdapter(adapter);
+                spinner.setSelection(prefs.getInt(String.valueOf(index),0));
+            }
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
@@ -42,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 LinearLayout list = (LinearLayout) findViewById(R.id.tribe_list);
                 View row = getLayoutInflater().inflate(R.layout.content_main, list, false);
+
+                // get child view count
+                assert list != null;
+                final int TribeNum = (list).getChildCount();
+
+                row.setId(TribeNum);
                 list.addView(row);
 
                 Spinner spinner = (Spinner) row.findViewById(R.id.spinner);
@@ -61,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         double frequencyDouble = 23 + Double.parseDouble(frequency_array[position]);
                         long frequencyLong = (long) frequencyDouble;
 
+                        // schedule job
                         if (0 < position) {
                             ComponentName serviceName = new ComponentName(MainActivity.this, ContactScheduler.class);
 
@@ -74,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
                             JobScheduler scheduler = (JobScheduler) MainActivity.this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
                             scheduler.schedule(jobInfo);
                         }
+
+                        // write to shared preferences
+                        // spinnerIndex is 0 indexed
+                        SharedPreferences.Editor editor = getSharedPreferences(TribePrefs, MODE_PRIVATE).edit();
+                        editor.putInt(String.valueOf(TribeNum), position);
+                        editor.apply();
+
                     }
 
                     @Override
